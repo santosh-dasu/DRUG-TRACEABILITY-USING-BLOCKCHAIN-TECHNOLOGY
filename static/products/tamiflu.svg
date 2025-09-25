@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tamflubg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6495ED;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#tamflubg)" stroke="#1E90FF" stroke-width="4"/>
+  
+  <!-- Capsule design -->
+  <ellipse cx="100" cy="100" rx="35" ry="15" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+  <ellipse cx="100" cy="100" rx="35" ry="8" fill="#FFFF00"/>
+  
+  <!-- Brand name -->
+  <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">TAMIFLU</text>
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">Oseltamivir 75mg</text>
+  
+  <!-- Antiviral symbol -->
+  <circle cx="100" cy="120" r="8" fill="none" stroke="#FF4500" stroke-width="2"/>
+  <line x1="94" y1="114" x2="106" y2="126" stroke="#FF4500" stroke-width="3"/>
+</svg>

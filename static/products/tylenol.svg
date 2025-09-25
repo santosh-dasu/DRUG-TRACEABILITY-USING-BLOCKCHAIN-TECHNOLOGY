@@ -1,0 +1,33 @@
+<!-- Tylenol (Acetaminophen) Pharmaceutical Package Design -->
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tylenolGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Main package background -->
+  <rect width="300" height="200" fill="url(#tylenolGrad)" rx="10"/>
+  <!-- White label area -->
+  <rect x="10" y="10" width="280" height="180" fill="url(#whiteGrad)" rx="8" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Brand name -->
+  <text x="150" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#dc2626">TYLENOL®</text>
+  <!-- Generic name -->
+  <text x="150" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#374151">Acetaminophen</text>
+  <!-- Strength -->
+  <rect x="110" y="80" width="80" height="30" fill="#dc2626" rx="4"/>
+  <text x="150" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">500 mg</text>
+  <!-- Dosage form -->
+  <text x="150" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Caplets</text>
+  <!-- Purpose -->
+  <text x="150" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#374151">Pain Reliever/Fever Reducer</text>
+  <!-- Manufacturer -->
+  <text x="150" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#dc2626">Johnson &amp; Johnson</text>
+  <!-- NDC bar -->
+  <rect x="20" y="170" width="260" height="20" fill="#dc2626" rx="3"/>
+  <text x="150" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">NDC 50580-488-24 | OTC</text>
+</svg>

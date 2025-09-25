@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Tracing Information - PharmTrace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #27ae60 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f4c75;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .page-title h1 {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .products-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            border-color: #3282b8;
+            box-shadow: 0 5px 20px rgba(50, 130, 184, 0.1);
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .product-meta {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .product-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .price { color: #2e7d32; }
+        .quantity { color: #1565c0; }
+        
+        .current-tracing {
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .current-tracing h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .current-status {
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .update-form {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e3f2fd;
+        }
+        
+        .form-title {
+            color: #1565c0;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        input, select, textarea {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .no-products {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        
+        .no-products h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .no-products p {
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .product-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🏥 PharmTrace</div>
+            <div class="nav-buttons">
+                <a href="{% url 'traceability:index' %}" class="btn btn-secondary">Home</a>
+                <a href="{% url 'traceability:view_tracing' %}" class="btn btn-secondary">View Tracing</a>
+                <a href="{% url 'traceability:add_tracing' %}" class="btn btn-primary">Add Tracing</a>
+                {% if request.session.user_role == 'admin' %}
+                    <a href="{% url 'traceability:admin_screen' %}" class="btn btn-secondary">Admin Panel</a>
+                {% else %}
+                    <a href="{% url 'traceability:user_screen' %}" class="btn btn-secondary">Dashboard</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Update Tracing Information</h1>
+            <p>Modify existing pharmaceutical tracing records and status updates</p>
+        </div>
+
+        <div class="products-container">
+            {% for p in products %}
+                <div class="product-card">
+                    <div class="product-header">
+                        <div class="product-info">
+                            <div class="product-name">{{ p.name }}</div>
+                            <div class="product-meta">Last updated: {{ p.last_update }}</div>
+                        </div>
+                        <div class="product-image">
+                            {% if p.image %}
+                                <img src="/static/products/{{ p.image }}" alt="{{ p.name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                            {% else %}
+                                <span>📦</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Price</div>
+                            <div class="detail-value price">${{ p.price }}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Quantity</div>
+                            <div class="detail-value quantity">{{ p.qty }} units</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Description</div>
+                            <div class="detail-value">{{ p.desc|truncatewords:8 }}</div>
+                        </div>
+                    </div>
+
+                    <div class="current-tracing">
+                        <h4>🔗 Current Tracing Status</h4>
+                        <div class="current-status">{{ p.tracing_info|default:"Production State" }}</div>
+                    </div>
+
+                    <div class="update-form">
+                        <div class="form-title">📝 Update Tracing Record</div>
+                        <form method="POST" action="{% url 'traceability:add_tracing_action' %}">>
+                            {% csrf_token %}
+                            <input type="hidden" name="t1" value="{{ p.name }}">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="t2_{{ forloop.counter }}">Tracing Type 🔍</label>
+                                    <select name="t2" id="t2_{{ forloop.counter }}" required>
+                                        <option value="">Select type...</option>
+                                        <option value="MANUFACTURED">Manufacturing Complete</option>
+                                        <option value="QUALITY_TESTED">Quality Testing</option>
+                                        <option value="SHIPPED">Shipped from Facility</option>
+                                        <option value="RECEIVED">Received at Destination</option>
+                                        <option value="DISTRIBUTED">Distributed to Pharmacies</option>
+                                        <option value="DISPENSED">Dispensed to Patient</option>
+                                        <option value="RETURNED">Product Returned</option>
+                                        <option value="RECALLED">Product Recalled</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="t3_{{ forloop.counter }}">Status 📊</label>
+                                    <select name="t3" id="t3_{{ forloop.counter }}" required>
+                                        <option value="">Select status...</option>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="IN_PROGRESS">In Progress</option>
+                                        <option value="COMPLETED">Completed</option>
+                                        <option value="FAILED">Failed</option>
+                                        <option value="CANCELLED">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location_{{ forloop.counter }}">Location/Facility 📍</label>
+                                    <input type="text" id="location_{{ forloop.counter }}" name="location" placeholder="e.g., Main Warehouse, NYC">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="responsible_{{ forloop.counter }}">Responsible Person 👤</label>
+                                    <input type="text" id="responsible_{{ forloop.counter }}" name="responsible_person" placeholder="e.g., John Smith">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="notes_{{ forloop.counter }}">Additional Notes 📝</label>
+                                <textarea id="notes_{{ forloop.counter }}" name="notes" rows="3" placeholder="Add any additional information..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">🔄 Update Tracing Record</button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="no-products">
+                    <h3>📦 No Products Available</h3>
+                    <p>There are currently no products in the system to update tracing information.</p>
+                    <a href="{% url 'traceability:add_product' %}" class="btn btn-primary">Add Your First Product</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Help Section -->
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin-top: 30px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);">
+            <h3 style="color: #333; margin-bottom: 20px; text-align: center;">💡 Update Guidelines</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: #f0f4ff; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h4 style="color: #1565c0; margin-bottom: 10px;">🏭 Manufacturing</h4>
+                    <p style="color: #666; font-size: 14px;">Update when production phases are complete</p>
+                </div>
+                <div style="background: #f0f8ff; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h4 style="color: #1976d2; margin-bottom: 10px;">🚚 Logistics</h4>
+                    <p style="color: #666; font-size: 14px;">Track shipments and deliveries</p>
+                </div>
+                <div style="background: #f8fff0; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h4 style="color: #2e7d32; margin-bottom: 10px;">🏪 Distribution</h4>
+                    <p style="color: #666; font-size: 14px;">Monitor pharmacy and hospital deliveries</p>
+                </div>
+                <div style="background: #fff8f0; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h4 style="color: #f57c00; margin-bottom: 10px;">⚠️ Alerts</h4>
+                    <p style="color: #666; font-size: 14px;">Handle recalls and quality issues</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

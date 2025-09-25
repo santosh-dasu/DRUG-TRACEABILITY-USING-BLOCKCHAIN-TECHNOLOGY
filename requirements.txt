@@ -1,0 +1,37 @@
+# Core Django Framework
+Django==5.1.1
+
+# Database Support
+pymysql==1.1.0
+psycopg2-binary==2.9.7  # PostgreSQL adapter for production
+
+# Blockchain/Web3 Support
+web3==6.20.1
+
+# Security Packages
+django-ratelimit==4.1.0          # Rate limiting
+django-security==0.17.0          # Additional security middleware
+django-csp==3.8                  # Content Security Policy
+cryptography==41.0.8             # Encryption utilities
+bcrypt==4.1.2                    # Password hashing
+django-axes==6.1.1               # Failed login protection
+django-session-security==2.6.7   # Session security
+argon2-cffi==23.1.0              # Password hashing
+
+# Input Validation & Sanitization
+bleach==6.1.0                    # HTML sanitization
+python-decouple==3.8             # Environment variables
+validators==0.22.0               # Input validation
+
+# Monitoring & Logging
+django-extensions==3.2.3         # Development utilities
+sentry-sdk[django]==1.38.0       # Error monitoring
+django-auditlog==2.3.0           # Audit trail
+
+# Production Server (Optional)
+gunicorn==21.2.0                 # WSGI server
+whitenoise==6.6.0                # Static file serving
+
+# Development & Testing
+pytest-django==4.7.0            # Testing framework
+coverage==7.3.4                 # Code coverage

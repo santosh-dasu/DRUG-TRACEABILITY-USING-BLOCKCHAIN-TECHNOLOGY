@@ -1,0 +1,31 @@
+<!-- Lipitor (Atorvastatin) Pharmaceutical Package Design -->
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lipitorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Main package background -->
+  <rect width="300" height="200" fill="url(#lipitorGrad)" rx="10"/>
+  <!-- White label area -->
+  <rect x="10" y="10" width="280" height="180" fill="url(#whiteGrad)" rx="8" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Brand name -->
+  <text x="150" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1e40af">LIPITOR®</text>
+  <!-- Generic name -->
+  <text x="150" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#374151">(atorvastatin calcium)</text>
+  <!-- Strength -->
+  <rect x="110" y="80" width="80" height="30" fill="#1e40af" rx="4"/>
+  <text x="150" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">20 mg</text>
+  <!-- Dosage form -->
+  <text x="150" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">Film-Coated Tablets</text>
+  <!-- Manufacturer -->
+  <text x="150" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1e40af">Pfizer Inc.</text>
+  <!-- NDC bar -->
+  <rect x="20" y="160" width="260" height="25" fill="#1e40af" rx="3"/>
+  <text x="150" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">NDC 0071-0155-23 | Rx Only</text>
+</svg>

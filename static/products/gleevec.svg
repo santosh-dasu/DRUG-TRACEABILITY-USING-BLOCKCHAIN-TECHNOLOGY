@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gleevecbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4B0082;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8A2BE2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#gleevecbg)" stroke="#6A0DAD" stroke-width="4"/>
+  
+  <!-- Cancer treatment capsule -->
+  <rect x="65" y="80" width="70" height="40" rx="20" ry="20" fill="#E6E6FA" stroke="#9370DB" stroke-width="2"/>
+  
+  <!-- Dosage -->
+  <text x="100" y="105" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#4B0082">400mg</text>
+  
+  <!-- Brand name -->
+  <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">GLEEVEC</text>
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">Imatinib</text>
+  
+  <!-- Cancer awareness ribbon -->
+  <path d="M85,45 Q80,50 85,55 Q90,60 100,55 Q110,50 105,45 Q100,40 90,45 Q85,40 85,45" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+  
+  <!-- Targeted therapy symbol -->
+  <circle cx="100" cy="135" r="8" fill="none" stroke="#00FF00" stroke-width="2"/>
+  <circle cx="100" cy="135" r="4" fill="#00FF00"/>
+</svg>

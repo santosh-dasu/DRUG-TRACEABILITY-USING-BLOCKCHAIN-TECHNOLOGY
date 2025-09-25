@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - PharmTrace</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #27ae60 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f4c75;
+            margin-bottom: 1rem;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .header h1 {
+            color: #1e293b;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+        
+        .welcome-message {
+            background: linear-gradient(135deg, #eff8ff, #f0f9ff);
+            padding: 2rem;
+            border-radius: 16px;
+            border-left: 5px solid #3282b8;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(50, 130, 184, 0.1);
+        }
+
+        .welcome-message h3 {
+            color: #0f4c75;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .welcome-message p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        .user-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: #3282b8;
+            box-shadow: 0 15px 30px rgba(50, 130, 184, 0.15);
+        }
+
+        .action-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #3282b8;
+        }
+        
+        .action-card h3 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .action-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(15, 76, 117, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15, 76, 117, 0.4);
+            background: linear-gradient(135deg, #134a6b, #2e7bb5);
+        }
+        
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-section h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .info-section i {
+            color: #27ae60;
+            font-size: 1.5rem;
+        }
+        
+        .info-section p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .info-section.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .info-section.warning i {
+            color: #f59e0b;
+        }
+        
+        .navigation {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .navigation a {
+            color: #0f4c75;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .navigation a:hover {
+            color: #3282b8;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .user-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-user-circle"></i>
+                PharmTrace
+            </div>
+            <h1>User Dashboard</h1>
+            <p>Access your pharmaceutical traceability tools</p>
+        </div>
+        
+        {% if data %}
+            <div class="welcome-message">
+                <h3>{{ data }}</h3>
+                <p>Access your drug traceability features below</p>
+            </div>
+        {% endif %}
+        
+        <div class="user-actions">
+            <div class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>View Tracing</h3>
+                <p>View drug tracing information and supply chain details for complete transparency</p>
+                <a href="{% url 'traceability:view_tracing' %}" class="btn">
+                    <i class="fas fa-eye"></i> View Tracing
+                </a>
+            </div>
+            
+            <div class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Search Products</h3>
+                <p>Search for specific pharmaceutical products and verify their authenticity</p>
+                <a href="{% url 'traceability:view_tracing' %}" class="btn">
+                    <i class="fas fa-search"></i> Search Products
+                </a>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3>
+                <i class="fas fa-shield-alt"></i>
+                About Drug Traceability
+            </h3>
+            <p>
+                Our blockchain-powered drug traceability system ensures the authenticity and safety 
+                of pharmaceutical products throughout the supply chain. You can track drugs from 
+                manufacturer to pharmacy, verify authenticity, and access complete product history 
+                with full transparency and security.
+            </p>
+        </div>
+        
+        <div class="info-section warning">
+            <h3>
+                <i class="fas fa-exclamation-triangle"></i>
+                Important Notice
+            </h3>
+            <p>
+                Always verify the authenticity of pharmaceutical products before use. If you suspect 
+                a counterfeit product, please report it immediately to the appropriate authorities. 
+                Your safety is our top priority.
+            </p>
+        </div>
+        
+        <div class="navigation">
+            <a href="{% url 'traceability:index' %}">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            |
+            <a href="{% url 'traceability:login' %}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+</body>
+</html>

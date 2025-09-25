@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="omeprazolebg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9370DB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BA55D3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#omeprazolebg)" stroke="#8A2BE2" stroke-width="4"/>
+  
+  <!-- Capsule design -->
+  <rect x="70" y="85" width="60" height="30" rx="15" ry="15" fill="#E6E6FA" stroke="#9370DB" stroke-width="2"/>
+  
+  <!-- Dosage -->
+  <text x="100" y="105" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#4B0082">20mg</text>
+  
+  <!-- Brand name -->
+  <text x="100" y="40" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">OMEPRAZOLE</text>
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">Acid Reducer</text>
+  
+  <!-- Stomach symbol -->
+  <path d="M85,50 Q75,60 80,70 Q85,75 95,70 Q105,65 105,55 Q100,50 85,50" fill="#FFB6C1" stroke="#FF69B4" stroke-width="1"/>
+</svg>

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmTrace - Advanced Drug Traceability System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Professional Pharmaceutical Color Palette */
+            --primary-blue: #0f4c75;      /* Deep Blue - Trust & Medical */
+            --secondary-blue: #3282b8;    /* Medium Blue - Professional */
+            --accent-teal: #17a2b8;       /* Teal - Healthcare */
+            --success-green: #27ae60;     /* Green - Safety & Health */
+            --warning-amber: #f39c12;     /* Amber - Caution */
+            --error-red: #e74c3c;         /* Red - Critical */
+            --neutral-50: #f8fafc;        /* Very Light Gray */
+            --neutral-100: #f1f5f9;       /* Light Gray */
+            --neutral-200: #e2e8f0;       /* Medium Light Gray */
+            --neutral-300: #cbd5e1;       /* Light Gray */
+            --neutral-400: #94a3b8;       /* Medium Light Gray */
+            --neutral-500: #64748b;       /* Medium Gray */
+            --neutral-600: #475569;       /* Medium Gray */
+            --neutral-700: #334155;       /* Dark Gray */
+            --neutral-800: #1e293b;       /* Dark Gray */
+            --neutral-900: #0f172a;       /* Very Dark */
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--neutral-800);
+            overflow-x: hidden;
+            background: var(--neutral-50);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--neutral-200);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 0.75rem;
+            font-size: 2rem;
+            color: var(--accent-teal);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-teal);
+            transition: width 0.3s ease;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--neutral-600);
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-blue);
+            border: 2px solid var(--neutral-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-50);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 6rem;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2364748b' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--neutral-900);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-highlight {
+            color: var(--primary-blue);
+            position: relative;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--neutral-600);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInRight 1s ease-out 0.3s both;
+        }
+
+        .hero-graphic {
+            width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-graphic::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--success-green));
+            border-radius: 26px;
+            z-index: -1;
+        }
+
+        .hero-graphic i {
+            font-size: 8rem;
+            color: var(--white);
+            opacity: 0.9;
+        }
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-teal) 100%);
+            color: white;
+            padding: 8rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-opacity="0.1" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.2;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #e0f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .blockchain-visual {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .blockchain-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .node-1 { top: 0; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .node-2 { top: 100px; left: 0; animation-delay: 0.5s; }
+        .node-3 { top: 100px; right: 0; animation-delay: 1s; }
+        .node-4 { bottom: 0; left: 50%; transform: translateX(-50%); animation-delay: 1.5s; }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--neutral-100);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--neutral-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--neutral-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--neutral-600);
+            line-height: 1.6;
+        }
+
+        /* Demo Credentials Section */
+        .credentials {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .credentials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .credential-card {
+            background: var(--neutral-50);
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .credential-card:hover {
+            border-color: var(--primary-blue);
+            background: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.15);
+        }
+
+        .credential-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .credential-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .credential-info h4 {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .credential-info p {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+        }
+
+        .credential-details {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .credential-details div {
+            margin-bottom: 0.3rem;
+        }
+
+        .credential-label {
+            color: var(--neutral-600);
+            display: inline-block;
+            width: 80px;
+        }
+
+        .credential-value {
+            color: var(--primary-blue);
+            font-weight: 600;
+            background: var(--neutral-50);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--neutral-900);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-logo i {
+            color: var(--accent-teal);
+            margin-right: 0.5rem;
+        }
+
+        .footer-description {
+            color: var(--neutral-400);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-social a {
+            color: var(--neutral-400);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--white);
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul li a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--neutral-700);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--neutral-500);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom p small {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80% {
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% {
+                opacity: 0;
+                transform: scale3d(.3, .3, .3);
+            }
+            20% {
+                transform: scale3d(1.1, 1.1, 1.1);
+            }
+            40% {
+                transform: scale3d(.9, .9, .9);
+            }
+            60% {
+                opacity: 1;
+                transform: scale3d(1.03, 1.03, 1.03);
+            }
+            80% {
+                transform: scale3d(.97, .97, .97);
+            }
+            100% {
+                opacity: 1;
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        /* Enhanced interactions */
+        .feature-card {
+            animation: slideInFromLeft 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .feature-card:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .feature-card:nth-child(6) {
+            animation-delay: 1s;
+        }
+
+        .credential-card {
+            animation: bounceIn 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .credential-card:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .credential-card:nth-child(even) {
+            animation-delay: 0.3s;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3282b8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification system */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+            z-index: 1001;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        /* Enhanced button interactions */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+
+        /* Mobile enhancements */
+        @media (max-width: 768px) {
+            .notification {
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+            }
+
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Focus management */
+        .btn:focus,
+        .nav-links a:focus,
+        .credential-card:focus {
+            outline: 2px solid var(--accent-teal);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-blue: #000080;
+                --secondary-blue: #000060;
+                --accent-teal: #008080;
+                --neutral-600: #000000;
+                --neutral-700: #000000;
+            }
+        }
+
+        /* Skip to main content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                PharmTrace
+            </div>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="#features" role="menuitem">Features</a></li>
+                <li role="none"><a href="#demo" role="menuitem">Demo</a></li>
+                <li role="none"><a href="#about" role="menuitem">About</a></li>
+                <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="{% url 'traceability:login' %}" class="btn btn-outline" aria-label="Login to your account">Login</a>
+                <a href="{% url 'traceability:register' %}" class="btn btn-primary" aria-label="Create a new account">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Secure Drug Traceability Platform</h1>
+                    <p class="subtitle">Revolutionary blockchain-powered pharmaceutical supply chain management system ensuring drug authenticity, safety, and regulatory compliance from manufacturer to patient.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Monitoring</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Transparent</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="blockchain-visual">
+                        <div class="blockchain-node node-1"><i class="fas fa-industry"></i></div>
+                        <div class="blockchain-node node-2"><i class="fas fa-truck"></i></div>
+                        <div class="blockchain-node node-3"><i class="fas fa-hospital"></i></div>
+                        <div class="blockchain-node node-4"><i class="fas fa-user-md"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Advanced Traceability Features</h2>
+                <p>Comprehensive pharmaceutical supply chain management with cutting-edge blockchain technology</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Immutable Security</h3>
+                    <p>Blockchain-powered immutable records ensure data integrity and prevent tampering throughout the entire supply chain process.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Real-time Tracking</h3>
+                    <p>Track pharmaceutical products in real-time from manufacturing to patient delivery with precise location and condition monitoring.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Regulatory Compliance</h3>
+                    <p>Automated compliance checking with international pharmaceutical regulations and instant audit trail generation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Multi-stakeholder Access</h3>
+                    <p>Role-based access control for manufacturers, distributors, pharmacies, hospitals, and regulatory authorities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Counterfeit Detection</h3>
+                    <p>Advanced algorithms and blockchain verification to identify and prevent counterfeit drugs from entering the supply chain.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics & Insights</h3>
+                    <p>Comprehensive analytics dashboard providing insights into supply chain efficiency, compliance metrics, and performance indicators.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Credentials Section -->
+    <section id="demo" class="credentials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Login Credentials</h2>
+                <p>Choose between simple demo accounts or realistic system credentials</p>
+            </div>
+            
+            <!-- Demo Credentials Section -->
+            <div style="margin-bottom: 50px;">
+                <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 30px; font-size: 24px;">🎯 Quick Demo Credentials</h3>
+                <p style="text-align: center; margin-bottom: 25px; color: #666;">Simple credentials for quick testing and exploration</p>
+                
+                <div class="credentials-grid">
+                    {% for username, user_info in demo_users.items %}
+                    <div class="credential-card">
+                        <div class="credential-header">
+                            <div class="credential-icon">
+                                {% if user_info.role == 'admin' %}
+                                    {% if 'admin' in username or 'regulatory' in username %}
+                                        <i class="fas fa-user-shield"></i>
+                                    {% elif 'manufacturer' in username %}
+                                        <i class="fas fa-industry"></i>
+                                    {% else %}
+                                        <i class="fas fa-balance-scale"></i>
+                                    {% endif %}
+                                {% else %}
+                                    {% if 'pharmacy' in username %}
+                                        <i class="fas fa-pills"></i>
+                                    {% elif 'supplier' in username or 'distributor' in username %}
+                                        <i class="fas fa-truck"></i>
+                                    {% elif 'hospital' in username %}
+                                        <i class="fas fa-hospital"></i>
+                                    {% elif 'quality' in username %}
+                                        <i class="fas fa-microscope"></i>
+                                    {% else %}
+                                        <i class="fas fa-user"></i>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="credential-info">
+                                <h4>{{ user_info.name|title }}</h4>
+                                <p>{{ user_info.role|capfirst }} Access</p>
+                            </div>
+                        </div>
+                        <div class="credential-details">
+                            <div><span class="credential-label">Username:</span> <span class="credential-value">{{ username }}</span></div>
+                            <div><span class="credential-label">Password:</span> <span class="credential-value">{{ user_info.password }}</span></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Real Credentials Section -->
+            <div style="border-top: 2px solid #e3e3e3; padding-top: 50px;">
+                <h3 style="text-align: center; color: var(--accent-teal); margin-bottom: 30px; font-size: 24px;">🏢 Professional System Credentials</h3>
+                <p style="text-align: center; margin-bottom: 25px; color: #666;">Realistic pharmaceutical industry credentials with detailed company information</p>
+                
+                <div class="credentials-grid">
+                    {% for username, user_info in real_users.items %}
+                    {% if forloop.counter <= 12 %}
+                    <div class="credential-card">
+                        <div class="credential-header">
+                            <div class="credential-icon">
+                                {% if user_info.role == 'admin' %}
+                                    {% if 'system' in username or 'data' in username %}
+                                        <i class="fas fa-user-shield"></i>
+                                    {% elif 'fda' in username or 'dea' in username or 'state' in username %}
+                                        <i class="fas fa-balance-scale"></i>
+                                    {% elif 'pfizer' in username or 'johnson' in username or 'novartis' in username or 'roche' in username %}
+                                        <i class="fas fa-industry"></i>
+                                    {% else %}
+                                        <i class="fas fa-user-shield"></i>
+                                    {% endif %}
+                                {% else %}
+                                    {% if 'pharmacy' in username or 'pharm' in username %}
+                                        <i class="fas fa-pills"></i>
+                                    {% elif 'dist' in username or 'logistics' in username or 'mckesson' in username or 'cardinal' in username or 'amerisource' in username %}
+                                        <i class="fas fa-truck"></i>
+                                    {% elif 'mayo' in username or 'cleveland' in username or 'hopkins' in username %}
+                                        <i class="fas fa-hospital"></i>
+                                    {% elif 'cvs' in username or 'walgreens' in username or 'rite_aid' in username %}
+                                        <i class="fas fa-store"></i>
+                                    {% elif 'local' in username or 'community' in username %}
+                                        <i class="fas fa-home"></i>
+                                    {% elif 'specialty' in username or 'rare' in username %}
+                                        <i class="fas fa-microscope"></i>
+                                    {% elif 'qc' in username or 'production' in username %}
+                                        <i class="fas fa-cogs"></i>
+                                    {% else %}
+                                        <i class="fas fa-user"></i>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="credential-info">
+                                <h4>{{ user_info.name }}</h4>
+                                <p>{{ user_info.company|default:"Professional User" }}</p>
+                                {% if user_info.license %}
+                                <small style="color: #888; font-size: 0.8em;">License: {{ user_info.license }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="credential-details">
+                            <div><span class="credential-label">Username:</span> <span class="credential-value">{{ username }}</span></div>
+                            <div><span class="credential-label">Password:</span> <span class="credential-value">{{ user_info.password }}</span></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <h4 style="color: var(--primary-blue); margin-bottom: 10px;">💡 Additional Professional Credentials Available</h4>
+                    <p style="color: #666; font-size: 14px;">Total of {{ real_users|length }} professional credentials including specialty pharmacies, independent pharmacies, and additional regulatory roles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Supply Chain?</h2>
+            <p>Join the future of pharmaceutical traceability with our secure, blockchain-powered platform. Ensure drug safety and regulatory compliance today.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'traceability:login' %}" class="btn btn-primary btn-large">
+                    <i class="fas fa-sign-in-alt"></i> Access Demo
+                </a>
+                <a href="{% url 'traceability:register' %}" class="btn btn-outline btn-large">
+                    <i class="fas fa-user-plus"></i> Register Account
+                </a>
+            </div>
+        </div>
+    </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer" style="background: var(--neutral-900); color: white; padding: 4rem 2rem 2rem; margin-top: 4rem;">
+        <div class="container" style="max-width: 1400px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 2rem;">
+                <div>
+                    <div class="logo" style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">
+                        <i class="fas fa-shield-alt" style="color: var(--accent-teal);"></i>
+                        PharmTrace
+                    </div>
+                    <p style="color: var(--neutral-400); line-height: 1.6; margin-bottom: 1rem;">
+                        Advanced blockchain-powered pharmaceutical supply chain traceability system ensuring drug safety and regulatory compliance.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="color: var(--neutral-400); font-size: 1.2rem; transition: color 0.3s ease;">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" style="color: var(--neutral-400); font-size: 1.2rem; transition: color 0.3s ease;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="color: var(--neutral-400); font-size: 1.2rem; transition: color 0.3s ease;">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="color: white; margin-bottom: 1rem; font-weight: 600;">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#features" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Features</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#demo" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Demo</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="{% url 'traceability:view_tracing' %}" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">View Products</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="{% url 'traceability:register' %}" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Register</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: white; margin-bottom: 1rem; font-weight: 600;">Support</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Documentation</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Help Center</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Contact Support</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">API Reference</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="color: white; margin-bottom: 1rem; font-weight: 600;">Legal</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Privacy Policy</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Terms of Service</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Compliance</a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="#" style="color: var(--neutral-400); text-decoration: none; transition: color 0.3s ease;">Security</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid var(--neutral-700); padding-top: 2rem; text-align: center;">
+                <p style="color: var(--neutral-500); margin-bottom: 0.5rem;">
+                    &copy; 2025 PharmTrace. All rights reserved. Built with security and compliance in mind.
+                </p>
+                <p style="color: var(--neutral-600); font-size: 0.9rem;">
+                    FDA Approved | DEA Compliant | ISO 27001 Certified | Blockchain Verified
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.classList.remove('scrolled');
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .credential-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // Hide notification after 4 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Add click handlers for buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Add loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = originalText + '<span class="loading-spinner"></span>';
+                this.querySelector('.loading-spinner').style.display = 'inline-block';
+                
+                // Remove loading state after a short delay
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 1000);
+            });
+        });
+
+        // Copy credentials to clipboard
+        function copyCredentials(username, password) {
+            const text = `Username: ${username}\nPassword: ${password}`;
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Credentials copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy credentials', 'error');
+            });
+        }
+
+        // Add copy functionality to credential cards
+        document.querySelectorAll('.credential-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.title = 'Click to copy credentials';
+            
+            card.addEventListener('click', function() {
+                const username = this.querySelector('.credential-value').textContent;
+                const passwordElement = this.querySelectorAll('.credential-value')[1];
+                const password = passwordElement ? passwordElement.textContent : '';
+                
+                if (username && password) {
+                    copyCredentials(username, password);
+                }
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            const speed = scrolled * 0.5;
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Welcome to PharmTrace - Advanced Drug Traceability System!', 'success');
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
